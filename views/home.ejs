@@ -1,0 +1,60 @@
+<%- include("partials/top") %>
+    <h1 class="mt-4 page-header">Home</h1>
+    <hr>
+    <h3>This is main page for to-do list</h3>
+
+    <div class="container">
+        <!-- add new todo -->
+        <%- include("partials/messages")%>
+            <form action="/home/add-todo" method="post">
+                <div class="form-group"><input class="form-control" type="text" name="title" placeholder="Add todo" value="<%= typeof title != 'undefined' ? title : '' %>">
+                </div>
+                <div class="form-group">
+                    <input type="radio" name="label" id="todo-label-1" value="Personal" <% if (typeof label !="undefined" && label==="Personal" ) {%> checked
+                    <% } %> >
+                        <label for="todo-label-1">Personal</label>
+                        <input type="radio" name="label" id="todo-label-2" value="Work" <% if (typeof label !="undefined" && label==="Work" ) {%> checked
+                        <% } %> >
+                            <label for="todo-label-2">Work</label>
+                            <input type="radio" name="label" id="todo-label-3" value="Shopping" <% if (typeof label !="undefined" && label==="Shopping" ) {%> checked
+                            <% } %> >
+                                <label for="todo-label-3">Shopping</label>
+                                <input type="radio" name="label" id="todo-label-4" value="Others" <% if (typeof label !="undefined" && label==="Others" ) {%> checked
+                                <% } %> >
+                                    <label for="todo-label-4">Others</label>
+                </div>
+                <%
+                let today = new Date();
+                let currentDate = (today.getDate() < 10) ? `0${today.getDate()}` : today.getDate();
+                let currentMonth = ((today.getMonth() + 1) < 10) ? `0${today.getMonth()+1}` : today.getMonth() + 1;
+                let currentYear = today.getFullYear();
+                today = `${currentYear}-${currentMonth}-${currentDate}`;
+            %>
+                    <div class="form-group">
+                        <input class="form-control" type="date" name="duedate" min="<%=today%>" value="<%= typeof duedate != 'undefined' ? duedate : '' %>">
+                    </div>
+                    <div class="form-group"><input class="btn btn-primary" type="submit" value="Add">
+                    </div>
+            </form>
+
+
+            <!-- todo list container -->
+            <div class="container todo-list">
+                <%todo_list.forEach(function (todo) { %>
+
+                    <% if(todo.archived){%>
+                        <div class="alert alert-danger">
+                            <p class="float-left"><em>Archived</em></p>
+                            <%= todo.title %> <a class="float-right" href="/home/archive-to-do/<%= todo._id %>/false">Remove from Archive</a>
+                        </div>
+                        <%} else {%>
+                            <div class="alert alert-info">
+                                <%= todo.title %> <a class="float-right" href="/home/archive-to-do/<%= todo._id %>/true">Archive</a>
+                            </div>
+                            <%}%>
+                                <%})%>
+            </div>
+    </div>
+
+
+    <%- include ("partials/bottom") %>

@@ -1,0 +1,19 @@
+body {
+    padding-top: 3.5rem;
+}
+
+main {
+    margin-top: 2.5rem;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+footer {
+    margin-top: 3.5rem;
+}
+
+hr {
+    width: 100%;
+}
