@@ -3,7 +3,7 @@ var express = require("express"),
 
 var { isLoggedIn, forwardAuthenticated } = require("../config/auth");
 var User = require("../models/user");
-var Todo = require("../models/todos");
+var Todo = require("../models/todo");
 
 var todos_list = [];
 
