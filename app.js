@@ -2,14 +2,17 @@ var express = require("express"),
     path = require("path"),
     flash = require("connect-flash"),
     session = require("express-session"),
-    passport = require("passport"),
+    cookieParser = require('cookie-parser');
+    passport = require("passport");
+    cors = require("cors");
     mongoose = require("mongoose");
 
 // Init App
 var app = express();
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost/TaskManagement", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://hector96:Login@123@cluster0-nf3hb.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 // EJS and View Engine
 app.set("views", path.join(__dirname, "views"));
@@ -22,11 +25,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Express Session Middleware
+app.use(cookieParser());
 app.use(session({
     secret: "session secret",
-    saveUninitialized: true,
-    resave: true
-}));
+    saveUninitialized: false,
+    resave: true,
+    cookie:{
+        maxAge:86400000
+}}));
 
 // Passport middleware
 app.use(passport.initialize());
